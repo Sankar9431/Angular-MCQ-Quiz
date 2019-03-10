@@ -1,0 +1,59 @@
+<div class="center">
+  <h2>Quiz</h2>
+</div>
+
+<div class="row" *ngIf="quizService.qns">
+  <div class="col s8 offset-s2">
+    <p id="timer" style="text-align: right"></p>
+    
+    <div *ngIf="!review" class="card-panel teal">
+      <div class="card-content white-text">
+        <p>
+          <span style="display: inline-block;margin-right: 1%">{{quizService.qnProgress+1}}.</span> 
+          <span style="display: inline-block" *ngIf="!review">{{quizService.qns[quizService.qnProgress].Qn}}</span>
+          <span style="display: inline-block" *ngIf="review">{{quizService.reviewQuestions[quizService.qnProgress].Qn}}</span>
+        </p>
+      </div>
+        <div class="collection ">
+          <div *ngFor="let option of quizService.qns[quizService.qnProgress].Options;let i = index">
+            <div *ngIf="option != null" class="collection-item">      
+                  <input [id]="i" type="radio" class="with-gap" name="group" 
+                  (change)="onSelect(quizService.qns[quizService.qnProgress].Id, option.Id)"
+                  [checked]="quizService.qns[quizService.qnProgress].IsAnswered && quizService.qns[quizService.qnProgress].Answer == option.Id">
+                  <label style="color:tomato" [for]="i">{{option.Name}}</label>          
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div *ngIf="review" class="card-panel teal">
+        <div class="card-content white-text">
+          <p>
+            <span style="display: inline-block;margin-right: 1%">{{quizService.reviewQuestions[quizService.qnProgress].Id}}.</span> 
+            <span style="display: inline-block">{{quizService.reviewQuestions[quizService.qnProgress].Qn}}</span>
+          </p>
+        </div>
+          <div class="collection ">
+            <div *ngFor="let option of quizService.reviewQuestions[quizService.qnProgress].Options;let i = index">
+              <div *ngIf="option != null" class="collection-item">      
+                    <input [id]="i" type="radio" class="with-gap" name="group" 
+                    (change)="onSelect(quizService.reviewQuestions[quizService.qnProgress].Id, option.Id)"
+                    [checked]="quizService.qns[quizService.reviewQuestions[quizService.qnProgress].Id - 1].IsAnswered && quizService.qns[quizService.reviewQuestions[quizService.qnProgress].Id].Answer == option.Id">
+                    <label style="color:tomato" [for]="i">{{option.Name}}</label>          
+              </div>
+            </div>
+          </div>
+      </div>
+
+  </div>
+
+</div>
+
+<div class="center">
+  <a class="waves-effect waves-light btn" style="margin-right: 2%" (click)="prev()" *ngIf="quizService.qnProgress>0">Prev</a>
+  <a class="waves-effect waves-light btn" (click)="next()" *ngIf="!review && quizService.qnProgress<quizService.qns.length-1">Next</a>
+  <a class="waves-effect waves-light btn" (click)="next()" *ngIf="review && quizService.qnProgress<quizService.reviewQuestions.length-1">Next</a>
+  <button class="btn waves-effect waves-light" style="margin-left: 2%" type="submit" name="action" (click)="onSubmit()">Submit
+    <i class="material-icons right">send</i>
+  </button>
+</div>

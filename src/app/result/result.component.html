@@ -1,0 +1,15 @@
+<h2 class="center">Result</h2>
+<div class="row valign-wrapper" style="width: 60% !important;" >
+    <canvas
+        baseChart
+        [chartType]="'pie'"
+        [datasets]="pieChartData"
+        [labels]="pieChartLabels"
+        [options]="pieChartOptions"
+        [legend]="true"
+        [colors]="pieChartColor">
+    </canvas>
+  </div>
+  <div class="row center">
+    <a class="waves-effect waves-light btn" [routerLink]="['/quiz']"><i class="material-icons left">restore</i>Retake Quiz</a>
+  </div>
